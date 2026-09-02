@@ -213,6 +213,11 @@ function doChartjsRender(req, res, opts) {
   )
     .then(opts.onRenderHandler)
     .catch((err) => {
+      if (err && err.statusCode === 400) {
+        // Atlas hardening: bad input is the client's fault - no error image.
+        res.status(400).type('text/plain').send(err.message);
+        return;
+      }
       logger.warn('Chart error', err);
       opts.failFn(res, err);
     });

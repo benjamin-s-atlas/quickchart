@@ -1,6 +1,7 @@
 FROM node:18-alpine3.17
 
 ENV NODE_ENV production
+ENV DISABLE_TELEMETRY=1
 
 WORKDIR /quickchart
 
@@ -37,5 +38,7 @@ COPY lib/*.js lib/
 COPY LICENSE .
 
 EXPOSE 3400
+
+USER node
 
 ENTRYPOINT ["node", "--max-http-header-size=65536", "index.js"]
